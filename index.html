@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Secure Online Voting{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4">Secure & Transparent Online Voting</h1>
+                <p class="lead mb-5">Cast your vote from anywhere with military-grade security and Two-Factor Authentication (2FA) protection.</p>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-4 gap-3">
+                        <i class="fas fa-user-plus me-2"></i>Get Started
+                    </a>
+                    <a href="#features" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fas fa-info-circle me-2"></i>Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Why Choose Secure Online Voting?</h2>
+            <p class="lead text-muted">Our platform combines cutting-edge security with user-friendly design</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-lock fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">Secure 2FA Authentication</h4>
+                        <p class="text-muted">Protect your vote with multi-layered security including SMS verification.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-check-circle fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">Tamper-Proof Voting</h4>
+                        <p class="text-muted">Blockchain-inspired technology ensures transparency and fairness.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-chart-line fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">Real-Time Results</h4>
+                        <p class="text-muted">View election outcomes instantly with our live dashboard.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-user-friends fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">User-Friendly Interface</h4>
+                        <p class="text-muted">Simple, accessible design for voters of all technical levels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">How It Works</h2>
+            <p class="lead text-muted">Voting has never been this easy and secure</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="step-number mb-3">1</div>
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-user-plus fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">Sign Up</h4>
+                        <p class="text-muted">Quick registration with email and phone verification.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="step-number mb-3">2</div>
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-sign-in-alt fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">Login</h4>
+                        <p class="text-muted">Secure access with your credentials.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="step-number mb-3">3</div>
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-mobile-alt fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">Verify OTP</h4>
+                        <p class="text-muted">Receive and enter your SMS verification code.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm hover-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="step-number mb-3">4</div>
+                        <div class="feature-icon mb-4">
+                            <i class="fas fa-vote-yea fa-3x text-success"></i>
+                        </div>
+                        <h4 class="mb-3">Cast Your Vote</h4>
+                        <p class="text-muted">Select your candidate and submit securely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section text-white py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="fw-bold mb-4">Ready to Vote Securely?</h2>
+                <p class="lead mb-5">Join thousands of voters using our trusted platform for democratic participation.</p>
+                <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-5 py-3">
+                    <i class="fas fa-user-shield me-2"></i>Register Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, var(--header-green) 0%, #1a7a62 100%);
+        padding: 6rem 0;
+        border-radius: 0 0 20px 20px;
+    }
+    
+    /* Feature Cards */
+    .hover-effect {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+    }
+    
+    .hover-effect:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+        color: var(--header-green);
+    }
+    
+    /* Steps */
+    .step-number {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background-color: var(--header-green);
+        color: white;
+        border-radius: 50%;
+        font-weight: bold;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--highlight-green) 0%, #2a9d8f 100%);
+        border-radius: 20px 20px 0 0;
+        margin-top: 3rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 4rem 0;
+        }
+        
+        .display-4 {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+{% endblock %}
