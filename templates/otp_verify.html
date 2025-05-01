@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}OTP Verification{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">OTP Verification</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">
+                    Check your console for the OTP (simulated).<br>
+                    Example: <code>123456</code>
+                </p>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.otp.label(class="form-label") }}
+                        {{ form.otp(class="form-control", placeholder="123456") }}
+                    </div>
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

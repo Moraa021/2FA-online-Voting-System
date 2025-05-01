@@ -1,0 +1,403 @@
+/* ================ */
+/* Global Variables */
+/* ================ */
+:root {
+    --header-green: #28a745;
+    --footer-green: #218838;
+    --highlight-green: #4CAF50;
+    --light-gray: #f8f9fa;
+    --dark-gray: #343a40;
+    --danger-red: #dc3545;
+    --warning-yellow: #ffc107;
+    --info-blue: #17a2b8;
+}
+
+/* ================ */
+/* Base Styles */
+/* ================ */
+body {
+    background-color: var(--light-gray);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* ================ */
+/* Typography */
+/* ================ */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--header-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--footer-green);
+    text-decoration: underline;
+}
+
+/* ================ */
+/* Card Styling */
+/* ================ */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+    background-color: var(--header-green);
+    color: white;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* ================ */
+/* Form Styling */
+/* ================ */
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+    border-color: var(--header-green);
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* ================ */
+/* Button Styling */
+/* ================ */
+.btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--header-green);
+    border-color: var(--header-green);
+}
+
+.btn-primary:hover {
+    background-color: var(--footer-green);
+    border-color: var(--footer-green);
+}
+
+.btn-outline-primary {
+    color: var(--header-green);
+    border-color: var(--header-green);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--header-green);
+    border-color: var(--header-green);
+}
+
+.btn-danger {
+    background-color: var(--danger-red);
+    border-color: var(--danger-red);
+}
+
+.btn-warning {
+    background-color: var(--warning-yellow);
+    border-color: var(--warning-yellow);
+    color: #212529;
+}
+
+.btn-info {
+    background-color: var(--info-blue);
+    border-color: var(--info-blue);
+}
+
+/* ================ */
+/* Alert Styling */
+/* ================ */
+.alert {
+    border-radius: 5px;
+    padding: 15px;
+    margin: 1rem 0;
+}
+
+.alert-success {
+    background-color: #E8F5E9;
+    border-color: #A5D6A7;
+    color: #1B5E20;
+}
+
+.alert-danger {
+    background-color: #FFEBEE;
+    border-color: #EF9A9A;
+    color: #C62828;
+}
+
+.alert-warning {
+    background-color: #FFF8E1;
+    border-color: #FFE082;
+    color: #F57F17;
+}
+
+.alert-info {
+    background-color: #E1F5FE;
+    border-color: #81D4FA;
+    color: #0277BD;
+}
+
+/* ================ */
+/* Navigation */
+/* ================ */
+.navbar {
+    padding: 0.8rem 1rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+    margin-right: 10px;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.1);
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover {
+    color: var(--highlight-green) !important;
+}
+
+/* ================ */
+/* Table Styling */
+/* ================ */
+.table {
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.table td, .table th {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* ================ */
+/* Dashboard Specific */
+/* ================ */
+.stat-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--header-green);
+}
+
+.stat-card .stat-label {
+    font-size: 1rem;
+    color: var(--dark-gray);
+    margin-top: 10px;
+}
+
+/* ================ */
+/* Auth Pages (Login, Register, etc.) */
+/* ================ */
+.auth-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header h2 {
+    color: var(--header-green);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+/* ================ */
+/* Error Pages (403, 404, 500) */
+/* ================ */
+.error-container {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.error-code {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--danger-red);
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* ================ */
+/* Footer */
+/* ================ */
+footer {
+    background-color: var(--dark-gray);
+    color: white;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+footer a {
+    color: #adb5bd;
+}
+
+footer a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+/* ================ */
+/* Utility Classes */
+/* ================ */
+.text-green {
+    color: var(--header-green);
+}
+
+.bg-green {
+    background-color: var(--header-green);
+}
+
+.rounded-lg {
+    border-radius: 10px;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ================ */
+/* Animations */
+/* ================ */
+@keyframes fa-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-spinner {
+    animation: fa-spin 1s infinite linear;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ================ */
+/* Responsive Adjustments */
+/* ================ */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        padding-top: 1rem;
+    }
+    
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    footer .row > div {
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-container {
+        padding: 1.5rem;
+    }
+    
+    .error-code {
+        font-size: 3rem;
+    }
+    
+    .error-message {
+        font-size: 1.25rem;
+    }
+}

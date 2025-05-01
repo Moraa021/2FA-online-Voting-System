@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - SECURE{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Enhanced Profile Sidebar -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body text-center p-4">
+                    <!-- Profile Avatar -->
+                    <div class="avatar-circle mb-3 shadow" style="background: linear-gradient(135deg, #1fd379 0%, #1a8a5e 100%);">
+                        <span class="initials">{{ user.username[0]|upper }}</span>
+                    </div>
+                    
+                    <h3 class="mb-2">{{ user.username }}</h3>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <i class="fas fa-envelope text-muted me-2"></i>
+                        <p class="text-muted mb-0">{{ user.email }}</p>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <i class="fas fa-phone text-muted me-2"></i>
+                        <p class="text-muted mb-0">{{ user.phone }}</p>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center gap-2 mb-4">
+                        <span class="badge bg-primary bg-gradient rounded-pill px-3 py-2">
+                            <i class="fas fa-user me-1"></i>
+                            {% if user.is_admin %}Admin{% else %}Voter{% endif %}
+                        </span>
+                        <span class="badge bg-secondary bg-gradient rounded-pill px-3 py-2">
+                            <i class="fas fa-calendar me-1"></i> {{ user.created_at.strftime('%b %Y') }}
+                        </span>
+                    </div>
+                    
+                    <a href="{{ url_for('settings') }}" class="btn btn-outline-primary rounded-pill px-4">
+                        <i class="fas fa-cog me-1"></i> Edit Profile
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Enhanced Stats Card -->
+            <div class="card shadow-sm mt-4 border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold mb-4"><i class="fas fa-chart-bar me-2"></i> Voting Stats</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 py-3">
+                            <div>
+                                <i class="fas fa-vote-yea text-primary me-2"></i>
+                                <span>Total Votes</span>
+                            </div>
+                            <span class="badge bg-primary bg-gradient rounded-pill px-3 py-2">{{ votes_count }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 py-3">
+                            <div>
+                                <i class="fas fa-calendar-check text-primary me-2"></i>
+                                <span>Elections Participated</span>
+                            </div>
+                            <span class="badge bg-primary bg-gradient rounded-pill px-3 py-2">{{ elections_count }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 py-3">
+                            <div>
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <span>Last Vote</span>
+                            </div>
+                            <span class="text-muted fw-medium">
+                                {% if voting_history %}
+                                    {{ voting_history[0][0].timestamp.strftime('%b %d, %Y') }}
+                                {% else %}
+                                    Never
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Voting History -->
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 rounded-3 h-100">
+                <div class="card-header bg-white border-0 rounded-top-3 p-4">
+                    <h4 class="mb-0"><i class="fas fa-history me-2"></i> Voting History</h4>
+                </div>
+                
+                {% if voting_history %}
+                <div class="list-group list-group-flush rounded-bottom-3">
+                    {% for vote, election, candidate in voting_history %}
+                    <div class="list-group-item border-0 py-3 px-4 hover-effect">
+                        <div class="d-flex w-100 justify-content-between mb-2">
+                            <h5 class="mb-0 fw-bold">{{ election.name }}</h5>
+                            <small class="text-muted">{{ vote.timestamp.strftime('%b %d, %Y at %H:%M') }}</small>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="candidate-badge me-3">
+                                <div class="badge bg-light text-dark rounded-pill px-3 py-2">
+                                    <i class="fas fa-user-tie me-2"></i>
+                                    <strong>{{ candidate.name }}</strong> ({{ candidate.party }})
+                                </div>
+                            </div>
+                        </div>
+                        <small class="text-muted">
+                            <i class="fas fa-calendar-times me-1"></i>
+                            Election ended on {{ election.end_date.strftime('%b %d, %Y') }}
+                        </small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="card-body text-center py-5">
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times fa-4x text-muted mb-4"></i>
+                        <h4 class="mb-3">No Voting History</h4>
+                        <p class="text-muted mb-4">You haven't participated in any elections yet.</p>
+                        <a href="{{ url_for('elections') }}" class="btn btn-primary rounded-pill px-4">
+                            <i class="fas fa-vote-yea me-1"></i> View Current Elections
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Enhanced Avatar */
+    .avatar-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .avatar-circle:hover {
+        transform: scale(1.05);
+    }
+    
+    /* Gradient Backgrounds */
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--bs-primary) 0%, #1B5E20 100%);
+    }
+    
+    /* Enhanced List Items */
+    .hover-effect {
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+    }
+    
+    .hover-effect:hover {
+        background-color: rgba(31, 211, 121, 0.05);
+        border-left: 3px solid #1fd379;
+        transform: translateX(5px);
+    }
+    
+    /* Empty State */
+    .empty-state {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    /* Card Enhancements */
+    .rounded-3 {
+        border-radius: 1rem !important;
+    }
+    
+    /* Badge Enhancements */
+    .candidate-badge .badge {
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 767px) {
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            font-size: 2.5rem;
+        }
+        
+        .d-flex.justify-content-center.gap-2 {
+            flex-direction: column;
+            gap: 0.5rem !important;
+        }
+    }
+</style>
+{% endblock %}

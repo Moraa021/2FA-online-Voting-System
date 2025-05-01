@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Account Settings - SECURE{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-user-cog me-2"></i>Account Settings</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('settings') }}">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2">Personal Information</h5>
+                            <div class="row g-3 mt-3">
+                                <div class="col-md-6">
+                                    {{ form.username.label(class="form-label") }}
+                                    {{ form.username(class="form-control") }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.email.label }}
+                                    {{ form.email(class="form-control", placeholder="e.g. example@domain.com") }}
+                                    {% if form.email.errors %}
+                                        <div class="alert alert-danger">
+                                            {% for error in form.email.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        Enter a valid email address (name@domain.com)
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    {{ form.phone.label }}
+                                    {{ form.phone(class="form-control", placeholder="e.g. 0712345678") }}
+                                    {% if form.phone.errors %}
+                                        <div class="alert alert-danger">
+                                            {% for error in form.phone.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        Enter your phone number (digits only, 10-15 characters)
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2">Change Password</h5>
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Leave password fields blank to keep current password
+                            </div>
+                            <div class="row g-3 mt-3">
+                                <div class="col-12">
+                                    {{ form.current_password.label(class="form-label") }}
+                                    {{ form.current_password(class="form-control") }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.password.label }}
+                                    {{ form.password(class="form-control") }}
+                                    {% if form.password.errors %}
+                                        <div class="alert alert-danger">
+                                            {% for error in form.password.errors %}
+                                                {{ error|safe }}  {# The |safe filter allows HTML in the error message #}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        Password must:
+                                        <ul>
+                                            <li>Be at least 6 characters long</li>
+                                            <li>Contain at least 3 of: uppercase, lowercase, number, special character</li>
+                                            <li>Not contain your username or email</li>
+                                            <li>Not be a common password (like 'password123')</li>
+                                        </ul>
+                                    </small>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.confirm_password.label(class="form-label") }}
+                                    {{ form.confirm_password(class="form-control") }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm mt-4 border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Danger Zone</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6>Delete Account</h6>
+                            <p class="mb-0 small text-muted">Permanently remove your account and all associated data</p>
+                        </div>
+                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                            <i class="fas fa-trash-alt me-1"></i>Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirm Account Deletion</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="fas fa-exclamation-triangle fa-4x text-danger mb-3"></i>
+                    <h4>Are you absolutely sure?</h4>
+                    <p class="text-muted">This action cannot be undone. This will permanently delete your account and remove all your data.</p>
+                </div>
+                
+                <form id="deleteAccountForm" method="POST" action="{{ url_for('delete_account') }}">
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Enter your password to confirm</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cancel
+                </button>
+                <button type="submit" form="deleteAccountForm" class="btn btn-danger">
+                    <i class="fas fa-trash-alt me-1"></i>Delete Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.querySelector('input[name="phone"]');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                // Remove any non-digit characters
+                this.value = this.value.replace(/[^0-9]/g, '');
+                // Enforce max length
+                if (this.value.length > 15) {
+                    this.value = this.value.slice(0, 15);
+                }
+            });
+            
+            // Show warning when user tries to paste non-numbers
+            phoneInput.addEventListener('paste', function(e) {
+                const pasteData = e.clipboardData.getData('text');
+                if (!/^\d+$/.test(pasteData)) {
+                    alert('Only numbers can be pasted into the phone field');
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const emailInput = document.querySelector('input[name="email"]');
+    if (emailInput) {
+        emailInput.addEventListener('blur', function() {
+            // Basic client-side validation
+            if (this.value && !this.value.includes('@')) {
+                this.setCustomValidity("Email must contain @ symbol");
+            } else {
+                this.setCustomValidity("");
+            }
+        });
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const emailInput = document.querySelector('input[name="email"]');
+    if (emailInput) {
+        emailInput.addEventListener('input', function() {
+            // Convert to lowercase in real-time
+            this.value = this.value.toLowerCase();
+            
+            // Basic client-side validation
+            if (this.value && !this.value.includes('@')) {
+                this.setCustomValidity("Email must contain @ symbol");
+            } else {
+                this.setCustomValidity("");
+            }
+        });
+    }
+});
+
+    </script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Election Results - SECURE{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4"><i class="fas fa-chart-pie me-2"></i>Election Results</h1>
+    
+    {% if election_results %}
+    <div class="row g-4">
+        {% for result in election_results %}
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-dark text-white">
+                    <h3 class="mb-0">{{ result.election.name }}</h3>
+                    <small>Closed on {{ result.election.end_date.strftime('%B %d, %Y') }}</small>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="badge bg-primary">
+                            Total Votes: {{ "{:,}".format(result.total_votes) }}
+                        </span>
+                        {% if result.user_voted %}
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle me-1"></i>You Voted
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="candidate-results mt-4">
+                        {% for candidate in result.candidates %}
+                        <div class="candidate-result-item mb-3 p-3 rounded" 
+                             style="background-color: #f8f9fa;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ url_for('static', filename='images/candidates/' + candidate.image) if candidate.image else url_for('static', filename='images/candidates/default.jpg') }}" 
+                                         class="rounded-circle me-3" 
+                                         width="50" 
+                                         height="50"
+                                         alt="{{ candidate.name }}">
+                                    <div>
+                                        <strong>{{ candidate.name }}</strong>
+                                        <small class="d-block text-muted">{{ candidate.party }}</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                    {{ "{:,}".format(candidate.votes_count) }} votes
+                                    {% if result.total_votes > 0 %}
+                                        ({{ ((candidate.votes_count / result.total_votes) * 100)|round(1) }}%)
+                                    {% else %}
+                                        (0%)
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+        <h3>No Results Available</h3>
+        <p class="text-muted">There are no completed elections to display results for</p>
+        <a href="{{ url_for('home') }}" class="btn btn-primary mt-3">
+            <i class="fas fa-home me-2"></i>Return Home
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .candidate-result-item {
+        transition: all 0.3s ease;
+    }
+    
+    .candidate-result-item:hover {
+        background-color: #e9ecef !important;
+        transform: translateX(5px);
+    }
+    
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+    
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+</style>
+{% endblock %}

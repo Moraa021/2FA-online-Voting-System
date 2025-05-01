@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Election Reports</h2>
+    
+    {% for report in reports %}
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3>{{ report.election.name }}</h3>
+            <p class="mb-0">
+                {{ report.election.start_date.strftime('%Y-%m-%d') }} to 
+                {{ report.election.end_date.strftime('%Y-%m-%d') }}
+            </p>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Summary</h5>
+                            <p>Total Votes: {{ report.total_votes }}</p>
+                            <p>Voter Turnout: {{ report.voter_turnout }}%</p>
+                            <a href="{{ url_for('export_report', election_id=report.election.id) }}" 
+                               class="btn btn-sm btn-outline-primary">
+                                Export as CSV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h5 class="mt-3">Candidate Results</h5>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Candidate</th>
+                            <th>Party</th>
+                            <th>Votes</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidate in report.candidates %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ candidate.name }}</td>
+                            <td>{{ candidate.party }}</td>
+                            <td>{{ candidate.votes }}</td>
+                            <td>{{ candidate.percentage }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <p class="text-muted">Report generated on {{ current_time.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+</div>
+{% endblock %}

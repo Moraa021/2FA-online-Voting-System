@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container elections-page py-4">
+    <div class="election-header text-center mb-5 p-4 bg-light rounded-3 shadow-sm">
+        <h1 class="display-4 fw-bold text-primary mb-3">{{ election.name }}</h1>
+        <p class="lead text-muted mb-4">{{ election.description }}</p>
+        <div class="election-timeline d-flex justify-content-center gap-3">
+            <span class="badge bg-gradient-info rounded-pill px-3 py-2">
+                <i class="fas fa-calendar-check me-1"></i> Started: {{ election.start_date.strftime('%b %d, %Y') }}
+            </span>
+            <span class="badge bg-gradient-danger rounded-pill px-3 py-2">
+                <i class="fas fa-clock me-1"></i> Ends: {{ election.end_date.strftime('%b %d, %Y') }}
+            </span>
+        </div>
+    </div>
+
+    {% if voted_candidate %}
+    <div class="alert alert-success text-center border-0 shadow-sm rounded-3">
+        <div class="d-flex align-items-center justify-content-center">
+            <i class="fas fa-check-circle fa-2x me-3"></i>
+            <div>
+                <h4 class="mb-1">You've already voted in this election</h4>
+                <p class="mb-0">You voted for: <strong class="text-dark">{{ voted_candidate }}</strong></p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="candidates-container row g-4">
+        {% for candidate in candidates %}
+        <div class="col-md-6 col-lg-4">
+            <div class="candidate-card card h-100 border-0 shadow-sm transition-all">
+                <div class="card-header bg-white text-center pt-4 pb-0 border-0">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="party-logo-container mb-3 shadow-sm">
+                            <img src="{{ url_for('static', filename='images/parties/' + candidate.party|lower + '.png') }}" 
+                                 alt="{{ candidate.party }} logo" 
+                                 class="party-logo">
+                        </div>
+                        <span class="badge bg-secondary bg-gradient rounded-pill px-3 py-2 mb-3">
+                            {{ candidate.party }}
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body text-center pt-0">
+                    <div class="candidate-img-frame mx-auto mb-4 shadow">
+                        <img src="{{ url_for('static', filename='images/' + candidate.image) }}" 
+                             class="candidate-img" 
+                             alt="{{ candidate.name }}">
+                    </div>
+                    <h3 class="card-title mb-3">{{ candidate.name }}</h3>
+                    <p class="card-text text-muted px-3">{{ candidate.bio }}</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 pb-4">
+                    <button class="btn btn-primary btn-gradient w-100 py-3 vote-btn rounded-pill" 
+                            data-candidate="{{ candidate.name }}"
+                            onclick="castVote(this)">
+                        <i class="fas fa-vote-yea me-2"></i>Vote for {{ candidate.name.split()[0] }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Enhanced Styles */
+    .election-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-left: 5px solid #2E7D32;
+    }
+    
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #1abc9c 100%);
+    }
+    
+    .bg-gradient-danger {
+        background: linear-gradient(135deg, #e74a3b 0%, #f6c23e 100%);
+    }
+    
+    .transition-all {
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    .candidate-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    }
+    
+    .party-logo-container {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        border-radius: 50%;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .party-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    
+    .candidate-img-frame {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        padding: 5px;
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .candidate-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid white;
+    }
+    
+    .btn-gradient {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+    }
+    
+    @media (max-width: 767px) {
+        .election-timeline {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .candidate-img-frame {
+            width: 120px;
+            height: 120px;
+        }
+    }
+</style>
+
+<script>
+    function castVote(button) {
+        const candidateName = button.dataset.candidate;
+        const buttonOriginal = button.innerHTML;
+        
+        // Disable button during processing
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+        button.classList.remove('btn-gradient');
+        button.classList.add('btn-secondary');
+        
+        fetch('/vote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'  // CSRF protection
+            },
+            body: JSON.stringify({
+                candidate: candidateName
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Show success and reload page
+                button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Voted!';
+                button.classList.remove('btn-secondary');
+                button.classList.add('btn-success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                throw new Error(data.message || 'Failed to cast vote');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            button.innerHTML = buttonOriginal;
+            button.disabled = false;
+            button.classList.remove('btn-secondary');
+            button.classList.add('btn-gradient');
+            alert('Error: ' + error.message);
+        });
+    }
+</script>
+
+{% endblock %}

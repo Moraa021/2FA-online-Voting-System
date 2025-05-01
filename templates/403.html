@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Access Denied{% endblock %}
+
+{% block content %}
+<div class="container my-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="error-card p-5 rounded-4 shadow-sm" style="border-left: 5px solid #dc3545;">
+                <div class="error-icon mb-4">
+                    <i class="fas fa-ban fa-5x text-danger"></i>
+                </div>
+                <h1 class="display-4 fw-bold mb-4">403 - Access Denied</h1>
+                <p class="lead mb-4">You don't have permission to access this resource.</p>
+                
+                {% if not current_user.is_authenticated %}
+                <div class="alert alert-warning mb-4">
+                    <i class="fas fa-info-circle me-2"></i> You might need to <a href="{{ url_for('login') }}" class="alert-link">login</a> first.
+                </div>
+                {% endif %}
+                
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg px-4 rounded-pill">
+                        <i class="fas fa-home me-2"></i>Return Home
+                    </a>
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                        <i class="fas fa-tachometer-alt me-2"></i>Your Dashboard
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-danger btn-lg px-4 rounded-pill">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .error-card {
+        background-color: #fff;
+    }
+    
+    .error-icon {
+        animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {transform: scale(1);}
+        50% {transform: scale(1.1);}
+        100% {transform: scale(1);}
+    }
+</style>
+{% endblock %}
